@@ -1,5 +1,5 @@
 # REAPER Diarization Script
-![](https://stash.reaper.fm/50943/speech_diarization.gif)
+![](speech_diarization.gif)
 
 A Python script that performs **speech diarization** (speaker identification) in the current REAPER project, automatically splitting a single mixed recording onto new, colour-coded tracks for each unique speaker.
 
