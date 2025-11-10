@@ -7,7 +7,7 @@ A Python script that performs **speech diarization** (speaker identification) in
 
 ## Features
 
-This script uses the [`senko`](github.com/narcotic-sh/senko) library for diarization and [`reapy`](https://github.com/RomeoDespres/reapy) to interact with REAPER.
+This script uses the [`senko`](https://github.com/narcotic-sh/senko) library for diarization and [`reapy`](https://github.com/RomeoDespres/reapy) to interact with REAPER.
 
 1.  **REAPER Integration:** Automatically connects to a running REAPER instance and targets the first media item on the first track.
 2.  **Format Check & Conversion:** Uses **`ffmpeg-python`** to check if the source audio is in the required 16kHz, mono, 16-bit PCM WAV format. If not, it converts it to a temporary file before processing, ensuring compatibility.
