@@ -56,19 +56,19 @@ The script must be run from your terminal/command line **outside** of REAPER, bu
 
 **2. Run the Script:**
 
-The primary script is named `reaper_speech_diarization.py`.
+The primary script is named `reaper_speech_diarizer.py`.
 
 * **To Run Full Diarization:**
     ```bash
-    python reaper_speech_diarization.py
+    python reaper_speech_diarizer.py
     ```
 
 * **To Run and Save Results to a JSON Cache:**
     ```bash
-    python reaper_speech_diarization.py --json_output results/my_diarization_cache.json
+    python reaper_speech_diarizer.py --json_output results/my_diarization_cache.json
     ```
 
 * **To Load Results from a JSON Cache (skips diarization):**
     ```bash
-    python reaper_speech_diarization.py --json_input results/my_diarization_cache.json
+    python reaper_speech_diarizer.py --json_input results/my_diarization_cache.json
     ```
