@@ -188,6 +188,7 @@ def process_results_in_reaper(result_data, rpr_project):
             
         # Get item properties needed for splitting and moving
         item_start_pos = item.position
+        item_end_pos = item_start_pos + item.length
         take_offset = take.start_offset
         
         # 2. Use the provided result_data
@@ -234,19 +235,27 @@ def process_results_in_reaper(result_data, rpr_project):
                     next_s = merged_segments[i+1]
                     split_time_in_file = next_s["start"]
                 
-                item_relative_split_s = (split_time_in_file - take_offset) 
-                abs_split_time = item_start_pos + item_relative_split_s
-                
-                # Use a small tolerance for floating point comparisons
-                tolerance = 1e-6 
+                item_relative_split = (split_time_in_file - take_offset) 
+
+                if item_relative_split < 0:
+                    print(f"Info: Split {i} at {item_relative_split:.2f}s occurs before the item start. Skipping.")
+                    continue
+
+                abs_split_time = item_start_pos + item_relative_split
+
+                if abs_split_time > item_end_pos:
+                    print(f"Info: Split {i} at {abs_split_time:2f}s occurs after the item ends. Skipping.")
+                    continue
                 
                 if not item_to_split:
                     print(f"Warning: Could not find item on original track for segment at {abs_split_time:.2f}s. Skipping.")
                     continue
 
-                if not is_last_segment and abs_split_time < (item_to_split.position + item_to_split.length - tolerance):
+                if not is_last_segment and abs_split_time < (item_to_split.position + item_to_split.length):
+                    print(f"Splitting segment {i} normally.")
                     segment_item, item_to_split = item_to_split.split(abs_split_time)
                 else:
+                    print(f"Splitting last segment.")
                     segment_item = item_to_split
                     item_to_split = None # No more items left to split
                 
@@ -322,7 +331,7 @@ if __name__ == '__main__':
     else:
         # --- Full Diarization Path ---
         print("Initializing Senko diarizer...")
-        diarizer = senko.Diarizer(device=args.device, warmup=True, quiet=False)
+        diarizer = senko.Diarizer(device=args.device, warmup=False, quiet=False)
         print("Diarizer warmed up and ready!\n")
         
         result_data = run_senko_diarization(diarizer, rpr_project, args.json_output)
